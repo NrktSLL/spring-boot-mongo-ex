@@ -1,7 +1,8 @@
 # Spring Boot MongoDb Example 
 
+<p align="center">
 <img src="https://github.com/NrktSLL/spring-boot-mongo-ex/blob/master/images/MongoDB.png" alt="Spring Boot MongoDB Example" width="20%" height="20%"/> 
-
+</p>
 
 >Example of Crud operations with optional Richardson Maturity Model Level 3 (HATEOAS) for MongoDB and MongoDB GridFS file operations (download / view / upload).
 >
