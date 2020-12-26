@@ -16,6 +16,7 @@ public interface EmployeeMapper {
 
     EmployeeResponse employeeEntityToEmployeeResponse(Employee employee);
 
+    @Mapping(target = "hiredDate", ignore = true)
     @Mapping(target = "id", ignore = true)
     Employee employeeRequestToEmployeeEntity(EmployeeRequest employeeRequest);
 

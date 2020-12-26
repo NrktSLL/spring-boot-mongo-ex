@@ -41,7 +41,7 @@ public class SwaggerConfig {
 
     private ApiInfo apiEndpointInfo() {
         return new ApiInfoBuilder()
-                .title("Spring Boot Mongo Example")
+                .title("Spring Boot MongoDB Example")
                 .description("MONGODB & MONGODB GRIDFS DEMO")
                 .contact(new Contact("Nrkt", "", ""))
                 .version("1.0.0")

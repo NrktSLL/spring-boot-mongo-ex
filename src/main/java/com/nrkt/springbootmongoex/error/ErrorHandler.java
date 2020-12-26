@@ -60,8 +60,8 @@ public class ErrorHandler {
 
     @ExceptionHandler(Exception.class)
     void handleConstraintViolationException(Exception ex, HttpServletResponse response, HttpServletRequest request) throws IOException {
-        response.sendError(INTERNAL_SERVER_ERROR.value(), ex.getMessage());
         loggingError(INTERNAL_SERVER_ERROR, ex.getMessage(), request);
+        response.sendError(INTERNAL_SERVER_ERROR.value(), ex.getMessage());
     }
 
     private void loggingError(HttpStatus httpStatus, String message, HttpServletRequest request) {

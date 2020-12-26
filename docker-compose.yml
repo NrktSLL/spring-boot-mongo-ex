@@ -2,8 +2,8 @@ version: "3.8"
 
 services:
   app:
-    build: .
-    container_name: app
+    image: nrkt/spring-boot-mongo-ex
+    container_name: SBMongoApp
     depends_on:
      - mongo
     environment:
