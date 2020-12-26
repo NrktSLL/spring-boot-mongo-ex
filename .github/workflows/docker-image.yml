@@ -1,18 +1,13 @@
-name: Docker Image CI
+name: Docker Compose Actions Workflow
 
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+on: push
 
 jobs:
-
-  build:
-
+  test:
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
-    - name: Build project with Docker
+    - name: Build project 
       run:  docker-compose up
+    - name: Test
+      run: docker run --network container:SBMongoApp appropriate/curl -s --retry 10 --retry-connrefused http://localhost:8080/
