@@ -10,4 +10,4 @@ jobs:
     - name: Build project 
       run: docker-compose build
     - name: Test
-      run: docker-compose run test
+      run: docker-compose up
