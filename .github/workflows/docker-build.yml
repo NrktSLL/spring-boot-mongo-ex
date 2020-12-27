@@ -9,5 +9,5 @@ jobs:
     - uses: actions/checkout@v2
     - name: Build project 
       run: docker-compose -f docker-compose.yml up -d
-    - name: Test
-      run: docker run --network container:SBMongoApp appropriate/curl -s --retry 10 --retry-connrefused http://localhost:8080/
+    - name: Show Containers
+      run: docker ps -a
