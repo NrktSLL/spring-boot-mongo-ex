@@ -5,11 +5,13 @@ import com.mongodb.DBObject;
 import com.mongodb.client.gridfs.GridFSFindIterable;
 
 import com.nrkt.springbootmongoex.exception.BadRequestException;
+import com.nrkt.springbootmongoex.exception.GridFSNotFoundException;
 import com.nrkt.springbootmongoex.mapper.FileMapper;
 import com.nrkt.springbootmongoex.repository.EmployeeRepository;
 import com.nrkt.springbootmongoex.validator.ValidFile;
 import lombok.SneakyThrows;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.multipart.MultipartFile;
 import com.mongodb.client.gridfs.model.GridFSFile;
 import com.nrkt.springbootmongoex.dto.response.FileResponse;
@@ -51,7 +53,7 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public void uploadFile(String employeeId, @ValidFile() MultipartFile file) throws Exception {
+    public void uploadFile(String employeeId, @Validated @ValidFile MultipartFile file) throws Exception {
         var exitEmployee = employeeRepository
                 .findById(employeeId)
                 .orElseThrow(() -> new BadRequestException("employee Not Found"));
@@ -84,6 +86,7 @@ public class FileServiceImpl implements FileService {
     public FileResponse getFile(String id) {
         Query query = new Query(Criteria.where("_id").is(id));
         var gridFSFile = gridFsOperations.findOne(query);
+        if(gridFSFile==null) throw new GridFSNotFoundException("File Not Found!");
         return gridFSFileOperation(gridFSFile);
     }
 

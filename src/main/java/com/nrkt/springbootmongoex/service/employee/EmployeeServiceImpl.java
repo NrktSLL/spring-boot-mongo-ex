@@ -4,20 +4,20 @@ import com.nrkt.springbootmongoex.domain.Employee;
 import com.nrkt.springbootmongoex.dto.request.EmployeeRequest;
 import com.nrkt.springbootmongoex.dto.response.EmployeeResponse;
 import com.nrkt.springbootmongoex.exception.BadRequestException;
-import com.nrkt.springbootmongoex.helper.EmployeeModelAssembler;
+import com.nrkt.springbootmongoex.mapper.EmployeeMapper;
 import com.nrkt.springbootmongoex.repository.EmployeeRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -26,27 +26,16 @@ import java.util.stream.Collectors;
 public class EmployeeServiceImpl implements EmployeeService {
 
     EmployeeRepository employeeRepository;
+    EmployeeMapper employeeMapper;
 
-    EmployeeModelAssembler employeeModelAssembler;
-    PagedResourcesAssembler<Employee> pagedResourcesAssembler;
+    PagedResourcesAssembler<EmployeeResponse> pagedResourcesAssembler;
 
     @Override
     public EmployeeResponse addEmployee(EmployeeRequest employee) {
-        Employee newEmployee = employeeModelAssembler.toEmployeeEntity(employee);
+        Employee newEmployee = employeeMapper.employeeRequestToEmployeeEntity(employee);
         employeeRepository.save(newEmployee);
 
-        return employeeModelAssembler.toModel(newEmployee);
-    }
-
-    @Override
-    public List<EmployeeResponse> addEmployees(List<EmployeeRequest> employees) {
-        List<Employee> employeeList = employees
-                .stream()
-                .map(employeeModelAssembler::toEmployeeEntity)
-                .collect(Collectors.toList());
-        employeeList = employeeRepository.saveAll(employeeList);
-
-        return employeeModelAssembler.toEmployeeResponseList(employeeList);
+        return employeeMapper.employeeEntityToEmployeeResponse(newEmployee);
     }
 
     @Override
@@ -66,7 +55,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         existEmployee = employeeRepository.save(existEmployee);
 
-        return employeeModelAssembler.toModel(existEmployee);
+        return employeeMapper.employeeEntityToEmployeeResponse(existEmployee);
     }
 
     @Override
@@ -84,22 +73,14 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .findById(id)
                 .orElseThrow(() -> new BadRequestException("employee Not Found"));
 
-        return employeeModelAssembler.toModel(employee);
+        return employeeMapper.employeeEntityToEmployeeResponse(employee);
     }
 
     @Override
-    public PagedModel<EmployeeResponse> getAllEmployee(Pageable pageable) {
+    public PagedModel<EntityModel<EmployeeResponse>> getAllEmployee(Pageable pageable) {
         var employeePage = employeeRepository.findAll(pageable);
+        Page<EmployeeResponse> employeeResponses= employeePage.map(employeeMapper::employeeEntityToEmployeeResponse);
 
-        return pagedResourcesAssembler.toModel(employeePage, employeeModelAssembler);
-    }
-
-    @Override
-    public EmployeeResponse findEmployeeByEmail(String email) {
-        var employee = employeeRepository
-                .findByEmail(email)
-                .orElseThrow(() -> new BadRequestException("employee Not Found"));
-
-        return employeeModelAssembler.toModel(employee);
+        return pagedResourcesAssembler.toModel(employeeResponses);
     }
 }

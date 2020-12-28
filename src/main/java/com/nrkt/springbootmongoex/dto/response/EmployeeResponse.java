@@ -1,7 +1,6 @@
 package com.nrkt.springbootmongoex.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.nrkt.springbootmongoex.dto.base.BaseResponse;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -40,6 +39,5 @@ public class EmployeeResponse extends BaseResponse {
 
     @ApiModelProperty(notes = "Hire Date", required = true)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Europe/Istanbul")
-    @JsonProperty("date")
     Date hiredDate;
 }

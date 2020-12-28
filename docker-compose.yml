@@ -2,8 +2,9 @@ version: "3.8"
 
 services:
   app:
-    image: nrkt/spring-boot-mongo-ex
-    container_name: SBMongoApp
+    # image: nrkt/spring-boot-mongo-ex
+    build: .
+    container_name: spring-boot-mongo-ex
     depends_on:
      - mongo
     environment:
@@ -12,6 +13,7 @@ services:
        - DB_NAME
        - DB_USER
        - DB_PASSWORD
+       - GRIDFS_BUCKET_NAME
        - MAX_REQUEST_SIZE
        - MAX_FILE_SIZE
     ports:
@@ -38,7 +40,6 @@ services:
       ME_CONFIG_MONGODB_AUTH_PASSWORD: $DB_PASSWORD
       ME_CONFIG_MONGODB_ADMINUSERNAME: $DB_USER
       ME_CONFIG_MONGODB_ADMINPASSWORD: $DB_PASSWORD
-      ME_CONFIG_MONGODB_ENABLE_ADMIN : 'true'
       ME_CONFIG_BASICAUTH_USERNAME: $ME_AUTH_USERNAME
       ME_CONFIG_BASICAUTH_PASSWORD: $ME_AUTH_PASSWORD
     ports:

@@ -13,6 +13,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -33,11 +34,11 @@ public class EmployeeController {
     @ApiOperation("Get All Employee")
     @ResponseStatus(HttpStatus.OK)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Done!", response = EmployeeResponse.class),
+            @ApiResponse(code = 200, message = "Done!"),
             @ApiResponse(code = 500, message = "Internal Server Error!", response = ApiError.class),
             @ApiResponse(code = 400, message = "Bad Request!", response = ApiError.class)
     })
-    public PagedModel<EmployeeResponse> getEmployeeList(
+    public PagedModel<EntityModel<EmployeeResponse>> getEmployeeList(
             @ApiParam(value = "Page Number")
             @RequestParam(defaultValue = "0", required = false) Integer page,
             @ApiParam(value = "Size")
@@ -110,19 +111,5 @@ public class EmployeeController {
     })
     public void deleteEmployee(@PathVariable @NotNull String id) {
         employeeService.removeEmployee(id);
-    }
-
-    @GetMapping("/findbyemail/{mail}")
-    @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "Bring Employee Information by Mail")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Done!", response = EmployeeResponse.class),
-            @ApiResponse(code = 404, message = "Not Found!", response = ApiError.class),
-            @ApiResponse(code = 500, message = "Internal Server Error!", response = ApiError.class),
-            @ApiResponse(code = 406, message = "Not Acceptable !", response = ApiError.class),
-            @ApiResponse(code = 400, message = "Bad Request!", response = ApiError.class)
-    })
-    public EmployeeResponse getEmployeeByMail(@NotNull @PathVariable @Valid String mail) {
-        return employeeService.findEmployeeByEmail(mail);
     }
 }

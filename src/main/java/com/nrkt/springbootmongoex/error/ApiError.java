@@ -5,12 +5,9 @@ import lombok.experimental.FieldDefaults;
 
 import java.util.Date;
 
-@Getter
-@Setter
+@Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @NonNull
-@ToString
-@EqualsAndHashCode
 @Builder
 public class ApiError {
   String message;

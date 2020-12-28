@@ -2,6 +2,7 @@ package com.nrkt.springbootmongoex.decarator;
 
 import com.mongodb.client.gridfs.model.GridFSFile;
 import com.nrkt.springbootmongoex.dto.response.FileResponse;
+import com.nrkt.springbootmongoex.exception.GridFSCanNotEmptyException;
 import com.nrkt.springbootmongoex.exception.GridFsException;
 import com.nrkt.springbootmongoex.mapper.FileMapper;
 import lombok.Setter;
@@ -22,7 +23,7 @@ public abstract class FileDecorator implements FileMapper {
 
     @Override
     public FileResponse gridFSFileResponse(GridFSFile file) {
-        if (file == null) return null;
+        if (file == null) throw new GridFSCanNotEmptyException("GridFs file can not be empty!");
         Document fileMetadata = Objects.requireNonNull(file.getMetadata());
 
         String filename = fileMetadata.getString("filename");
@@ -31,15 +32,18 @@ public abstract class FileDecorator implements FileMapper {
 
         GridFsResource resource = gridFsOperations.getResource(file);
         try {
-            return FileResponse.builder()
+            var fileResponse = FileResponse.builder()
                     .contentType(contentType)
                     .contentLength(file.getLength())
                     .uploadDate(file.getUploadDate())
                     .employeeId(employeeId)
                     .resource(resource)
                     .name(filename)
-                    .id(file.getObjectId().toHexString())
                     .build();
+            fileResponse.setId(file.getObjectId().toHexString());
+
+            return fileResponse;
+
         } catch (Exception exception) {
             throw new GridFsException(exception.getMessage());
         }

@@ -14,10 +14,9 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.validation.constraints.NotNull;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -63,7 +62,7 @@ public class FileController {
     public void fileUpload(
             @ApiParam(value = "Employee Number")
             @PathVariable String id,
-            @RequestPart @NotNull @ValidFile MultipartFile file) {
+            @Validated @ValidFile @RequestPart("file") MultipartFile file) {
 
         fileService.uploadFile(id, file);
     }
