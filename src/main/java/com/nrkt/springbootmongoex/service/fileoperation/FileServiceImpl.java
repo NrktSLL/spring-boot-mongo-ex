@@ -101,11 +101,7 @@ public class FileServiceImpl implements FileService {
         return fileMapper.gridFSFileResponse(gridFSFile);
     }
 
-    private void gridFsDelete(Query query) throws Exception {
-        try {
+    private void gridFsDelete(Query query) {
             gridFsOperations.delete(query);
-        } catch (Exception exception) {
-            throw new Exception(exception.getMessage());
-        }
     }
 }

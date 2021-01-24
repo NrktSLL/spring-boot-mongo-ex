@@ -1,4 +1,4 @@
-package com.nrkt.springbootmongoex.decarator;
+package com.nrkt.springbootmongoex.decorator;
 
 import com.mongodb.client.gridfs.model.GridFSFile;
 import com.nrkt.springbootmongoex.dto.response.FileResponse;

@@ -1,6 +1,6 @@
 package com.nrkt.springbootmongoex.mapper;
 
-import com.nrkt.springbootmongoex.decarator.EmployeeDecorator;
+import com.nrkt.springbootmongoex.decorator.EmployeeDecorator;
 import com.nrkt.springbootmongoex.domain.Employee;
 import com.nrkt.springbootmongoex.dto.request.EmployeeRequest;
 import com.nrkt.springbootmongoex.dto.response.EmployeeResponse;

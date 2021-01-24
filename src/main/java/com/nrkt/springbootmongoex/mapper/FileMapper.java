@@ -1,7 +1,7 @@
 package com.nrkt.springbootmongoex.mapper;
 
 import com.mongodb.client.gridfs.model.GridFSFile;
-import com.nrkt.springbootmongoex.decarator.FileDecorator;
+import com.nrkt.springbootmongoex.decorator.FileDecorator;
 import com.nrkt.springbootmongoex.dto.response.FileResponse;
 import org.mapstruct.DecoratedWith;
 import org.mapstruct.Mapper;

@@ -1,4 +1,4 @@
-package com.nrkt.springbootmongoex.decarator;
+package com.nrkt.springbootmongoex.decorator;
 
 import com.nrkt.springbootmongoex.controller.rest.EmployeeController;
 import com.nrkt.springbootmongoex.domain.Employee;
